@@ -3,7 +3,7 @@
     Get the IP addresses in a range and Scan for specific Patterns in SMB Shares
 
   .AUTHOR
-   benjamin.zulliger@fhnw.ch | Get-IP Range Function Barry CWT
+   Benjamin Zulliger | Get-IP Range Function Barry CWT
 
   .EXAMPLE 
    .\ScanSMBSharesParamIP.ps1 -start 192.168.8.2 -end 192.168.8.20 -searchquery "admin,secret,pass,..."
