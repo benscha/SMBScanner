@@ -11,15 +11,20 @@ This Script will Scan for SMB Shares in defined IP Ranges. If Shares are accessi
 
   .EXAMPLE 
    .\ScanSMBSharesParamIP.ps1 -start 192.168.8.2 -end 192.168.8.20 -searchquery "admin,secret,pass,..."
+   
   .EXAMPLE 
    .\ScanSMBSharesParamIP.ps1 -ip 192.168.8.2 -mask 255.255.255.0 -searchquery "admin,secret,pass,..."
+   
   .EXAMPLE 
    .\ScanSMBSharesParamIP.ps1 -ip 192.168.8.3 -cidr 24 -searchquery "admin,secret,pass,..."
+   
    .EXAMPLE 
    .\ScanSMBSharesParamIP.ps1 -ip 192.168.8.3 -cidr 24 -searchquery default
+   
   .EXAMPLE
    .\ScanSMBSharesParamIP.ps1 
    Script will Start with an interactive Menu
+   
 
   .OUTPUTS
    Search Results $exportFile Path can bedefined in Line 47
