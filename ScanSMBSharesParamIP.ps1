@@ -146,12 +146,12 @@ for ($i = $startaddr; $i -le $endaddr; $i++)
     }
 
     # Ask for Start IP and Subnet Mask
-    if ($selection -eq 2) {$ip = Read-Host -Prompt "Define Subnet Mask" 
+    if ($selection -eq 2) {$ip = Read-Host -Prompt "Start IP Address" 
     $mask = Read-Host -Prompt "Subnet Mask" 
     }
 
     # Ask for Start IP and CIDR
-    if ($selection -eq 3) {$ip = Read-Host -Prompt "Define CIDR" 
+    if ($selection -eq 3) {$ip = Read-Host -Prompt "Start IP Address" 
     $cidr = Read-Host -Prompt "CIDR" 
     }
 
