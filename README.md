@@ -42,8 +42,10 @@ This Script will Scan for SMB Shares in defined IP Ranges. If Shares are accessi
   .OUTPUTS
   
    Search Results $exportFile Path can bedefined in Line 47
+   
    "Path"                       ,"LineNumber","Line"
    "\\IP-Address\Share\Filename","19646"     ,"Content of this Line"
+   
    LogFile of Scanned IP Addresses will be written to Current Folder SMB_ScanLog.txt
 
   .THX
