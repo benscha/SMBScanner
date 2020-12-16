@@ -44,7 +44,6 @@ param
 $LogPath = "SMB_ScanLog.txt"
 
 
-
 ### Functions ###
 # IP Menu Function
 function Show-Menu-IP
@@ -118,24 +117,17 @@ if ($ip) {
   $endaddr = IP-toINT64 -ip $end
 }
 
-
 for ($i = $startaddr; $i -le $endaddr; $i++)
 {
   INT64-toIP -int $i
 }
-
 }
-
-
 
 # Menu IP
     if ((($start.Length -lt 7) -eq $true ) -and (($end.Length -lt 7 ) -eq $true ) -and (($ip.Length -lt 7 ) -eq $true ) -and (($mask.Length -lt 7 ) -eq $true ) -and (($cidr.Length -lt 2 ) -eq $true )) {
 
-
     Show-Menu-IP –Title 'Define IP Addresses'
     $selection = Read-Host "Please make a selection"
-
-
 
     # Ask for Settings Start End IP
     if ($selection -eq 1) {$start = Read-Host -Prompt "Start IP Address"
@@ -155,7 +147,6 @@ for ($i = $startaddr; $i -le $endaddr; $i++)
     if ($selection -eq "q" ) {
     Break Script
     }
-
      }
 
 
@@ -183,7 +174,6 @@ if (($searchquery.Length -eq 0 ) -eq $true ) { Show-Menu-Search
 if (($searchquery.Length -gt 0 ) -eq $true ) { $search = $searchquery -split ',' }
 
 
-
 # Scanning Process
 ForEach ( $Server in $Servers) {
 
@@ -192,7 +182,6 @@ ForEach ( $Server in $Servers) {
 
             $Log | Out-File $LogPath -Append
   
-
             # Test if Host is up
             Write-Output "Test if $Server is up"
             if (Test-Connection $Server -Count 1 -ErrorAction SilentlyContinue) {
