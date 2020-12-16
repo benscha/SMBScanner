@@ -30,21 +30,21 @@
 
 
 ### Parameter ###
-param 
-( 
-  [string]$start, 
-  [string]$end, 
-  [string]$ip, 
-  [string]$mask, 
+param
+(
+  [string]$start,
+  [string]$end,
+  [string]$ip,
+  [string]$mask,
   [int]$cidr,
-  [string]$searchquery 
-) 
+  [string]$searchquery
+)
 
 
 ### Definitions ###
 
 # Search Results LogPath
-$LogPath = "S:\SRV\A2142_Corporate_IT\A2142_Transfer\BeZu\SMB_ScanLog.txt"
+$LogPath = "SMB_ScanLog.txt"
 
 
 
@@ -56,19 +56,19 @@ function Show-Menu-IP
         [string]$Title = 'Define IP Addresses'
     )
     Clear-Host
-    Write-Host "========================== $Title =========================="
-    Write-Host ""
-    Write-Host "1: Scan with Start and End IP Address (10.10.10.10 - 10.10.10.20)" 
-    Write-Host  "   Press '1' for this option."
-    Write-Host ""
-    Write-Host "2: Scan with Network Mask 10.0.0.0 255.255.255.0:" 
-    Write-Host  "   Press '2' for this option."
-    Write-Host ""
-    Write-Host "3: Scan with CIDR IP Rang 10.0.0.0/24:" 
-    Write-Host  "   Press '3' for this option."
-    Write-Host ""
-    Write-Host "Q: Press 'Q' to quit."
-    Write-Host ""
+    Write-Output "========================== $Title =========================="
+    Write-Output ""
+    Write-Output "1: Scan with Start and End IP Address (10.10.10.10 - 10.10.10.20)"
+    Write-Output  "   Press '1' for this option."
+    Write-Output ""
+    Write-Output "2: Scan with Network Mask 10.0.0.0 255.255.255.0:"
+    Write-Output  "   Press '2' for this option."
+    Write-Output ""
+    Write-Output "3: Scan with CIDR IP Rang 10.0.0.0/24:"
+    Write-Output  "   Press '3' for this option."
+    Write-Output ""
+    Write-Output "Q: Press 'Q' to quit."
+    Write-Output ""
 }
 
 # Search String Menu Function
@@ -78,53 +78,53 @@ function Show-Menu-Search
         [string]$Title = 'Search String'
     )
     Clear-Host
-    Write-Host "========================== $Title =========================="
-    Write-Host ""
-    Write-Host "1: Use Custom Search Patterns SAMPLE: beer,bacon,party,...:" 
-    Write-Host  "   Press '1' for this option."
-    Write-Host ""
-    Write-Host "2: Use default Search Patterns:  admin,secret,pass,srv,user,credential" 
-    Write-Host  "   Press '2' for this option."
-    Write-Host ""
-    Write-Host "Q: Press 'Q' to quit."
-    Write-Host ""
+    Write-Output "========================== $Title =========================="
+    Write-Output ""
+    Write-Output "1: Use Custom Search Patterns SAMPLE: beer,bacon,party,...:"
+    Write-Output  "   Press '1' for this option."
+    Write-Output ""
+    Write-Output "2: Use default Search Patterns:  admin,secret,pass,srv,user,credential"
+    Write-Output  "   Press '2' for this option."
+    Write-Output ""
+    Write-Output "Q: Press 'Q' to quit."
+    Write-Output ""
 }
 
 # Get-IPRange Function
 function Get-IPrange
 {
- 
-function IP-toINT64 () { 
-  param ($ip) 
- 
-  $octets = $ip.split(".") 
-  return [int64]([int64]$octets[0]*16777216 +[int64]$octets[1]*65536 +[int64]$octets[2]*256 +[int64]$octets[3]) 
-} 
- 
-function INT64-toIP() { 
-  param ([int64]$int) 
+
+function IP-toINT64 () {
+  param ($ip)
+
+  $octets = $ip.split(".")
+  return [int64]([int64]$octets[0]*16777216 +[int64]$octets[1]*65536 +[int64]$octets[2]*256 +[int64]$octets[3])
+}
+
+function INT64-toIP() {
+  param ([int64]$int)
 
   return (([math]::truncate($int/16777216)).tostring()+"."+([math]::truncate(($int%16777216)/65536)).tostring()+"."+([math]::truncate(($int%65536)/256)).tostring()+"."+([math]::truncate($int%256)).tostring() )
-} 
- 
-if ($ip) {$ipaddr = [Net.IPAddress]::Parse($ip)} 
-if ($cidr) {$maskaddr = [Net.IPAddress]::Parse((INT64-toIP -int ([convert]::ToInt64(("1"*$cidr+"0"*(32-$cidr)),2)))) } 
-if ($mask) {$maskaddr = [Net.IPAddress]::Parse($mask)} 
-if ($ip) {$networkaddr = new-object net.ipaddress ($maskaddr.address -band $ipaddr.address)} 
-if ($ip) {$broadcastaddr = new-object net.ipaddress (([system.net.ipaddress]::parse("255.255.255.255").address -bxor $maskaddr.address -bor $networkaddr.address))} 
- 
-if ($ip) { 
-  $startaddr = IP-toINT64 -ip $networkaddr.ipaddresstostring 
-  $endaddr = IP-toINT64 -ip $broadcastaddr.ipaddresstostring 
-} else { 
-  $startaddr = IP-toINT64 -ip $start 
-  $endaddr = IP-toINT64 -ip $end 
-} 
- 
- 
-for ($i = $startaddr; $i -le $endaddr; $i++) 
-{ 
-  INT64-toIP -int $i 
+}
+
+if ($ip) {$ipaddr = [Net.IPAddress]::Parse($ip)}
+if ($cidr) {$maskaddr = [Net.IPAddress]::Parse((INT64-toIP -int ([convert]::ToInt64(("1"*$cidr+"0"*(32-$cidr)),2)))) }
+if ($mask) {$maskaddr = [Net.IPAddress]::Parse($mask)}
+if ($ip) {$networkaddr = new-object net.ipaddress ($maskaddr.address -band $ipaddr.address)}
+if ($ip) {$broadcastaddr = new-object net.ipaddress (([system.net.ipaddress]::parse("255.255.255.255").address -bxor $maskaddr.address -bor $networkaddr.address))}
+
+if ($ip) {
+  $startaddr = IP-toINT64 -ip $networkaddr.ipaddresstostring
+  $endaddr = IP-toINT64 -ip $broadcastaddr.ipaddresstostring
+} else {
+  $startaddr = IP-toINT64 -ip $start
+  $endaddr = IP-toINT64 -ip $end
+}
+
+
+for ($i = $startaddr; $i -le $endaddr; $i++)
+{
+  INT64-toIP -int $i
 }
 
 }
@@ -137,22 +137,22 @@ for ($i = $startaddr; $i -le $endaddr; $i++)
 
     Show-Menu-IP –Title 'Define IP Addresses'
     $selection = Read-Host "Please make a selection"
-   
+
 
 
     # Ask for Settings Start End IP
-    if ($selection -eq 1) {$start = Read-Host -Prompt "Start IP Address" 
-    $end = Read-Host -Prompt "End IP Address" 
+    if ($selection -eq 1) {$start = Read-Host -Prompt "Start IP Address"
+    $end = Read-Host -Prompt "End IP Address"
     }
 
     # Ask for Start IP and Subnet Mask
-    if ($selection -eq 2) {$ip = Read-Host -Prompt "Start IP Address" 
-    $mask = Read-Host -Prompt "Subnet Mask" 
+    if ($selection -eq 2) {$ip = Read-Host -Prompt "Define Subnet Mask"
+    $mask = Read-Host -Prompt "Subnet Mask"
     }
 
     # Ask for Start IP and CIDR
-    if ($selection -eq 3) {$ip = Read-Host -Prompt "Start IP Address" 
-    $cidr = Read-Host -Prompt "CIDR" 
+    if ($selection -eq 3) {$ip = Read-Host -Prompt "Define CIDR"
+    $cidr = Read-Host -Prompt "CIDR"
     }
 
     if ($selection -eq "q" ) {
@@ -171,8 +171,8 @@ if ((($ip -eq $null) -eq $false ) -and (($cidr -eq $null) -eq $false ))   { $Ser
 # No Search Pattern defined
 if ($searchquery -eq "defaut") { $searchquery = "admin,secret,pass,srv,user,credential" }
 
-if (($searchquery.Length -eq 0 ) -eq $true ) { Show-Menu-Search 
-                                                $selectionsearch = Read-Host "Please make a selection" 
+if (($searchquery.Length -eq 0 ) -eq $true ) { Show-Menu-Search
+                                                $selectionsearch = Read-Host "Please make a selection"
 
     # Ask for search Patterns
     if ($selectionsearch -eq 1) { $searchquery = Read-Host -Prompt "Your search Patterns (Comma separated)"  }
@@ -188,26 +188,26 @@ if (($searchquery.Length -gt 0 ) -eq $true ) { $search = $searchquery -split ','
 
 
 # Scanning Process
-ForEach ( $Server in $Servers) {        
+ForEach ( $Server in $Servers) {
 
             $Delimiter =";"
             $Log = (Get-Date -Format "dd.MM.yyyy") + $Delimiter + (Get-Date -Format "hh:mm") + $Delimiter + $Server
 
             $Log | Out-File $LogPath -Append
-            
+  
 
             # Test if Host is up
-            Write-Host "Test if $Server is up"
-            if (Test-Connection $Server -Count 1 -ErrorAction SilentlyContinue) { 
+            Write-Output "Test if $Server is up"
+            if (Test-Connection $Server -Count 1 -ErrorAction SilentlyContinue) {
 
 
             $hostname = [System.Net.Dns]::GetHostByAddress($Server).HostName
-            Write-Host "Scanning $hostname"
-            
+            Write-Output "Scanning $hostname"
+  
                 # List of Shares on Server
-                $SharesRAW = net view \\$Server /all 2>$null | Select-Object -Skip 7 | Select-Object -SkipLast 2 
-                $SharesRAW = $SharesRAW | Where-Object {$_ -like "*Platte*"} 
-                $SharesRAW = $SharesRAW | Where-Object {$_.tostring() -notlike 'C$*' -and $_.tostring() -notlike 'D$*' -and $_.tostring() -notlike 'E$*' -and $_.tostring() -notlike 'IPC$*' -and $_.tostring() -notlike 'ADMIN$*'} 
+                $SharesRAW = net view \\$Server /all 2>$null | Select-Object -Skip 7 | Select-Object -SkipLast 2
+                $SharesRAW = $SharesRAW | Where-Object {$_ -like "*Platte*"}
+                $SharesRAW = $SharesRAW | Where-Object {$_.tostring() -notlike 'C$*' -and $_.tostring() -notlike 'D$*' -and $_.tostring() -notlike 'E$*' -and $_.tostring() -notlike 'IPC$*' -and $_.tostring() -notlike 'ADMIN$*'}
                 $SharesRAW = $SharesRAW -replace "      Platte"
 
                 $SharesRAW = $SharesRAW -replace "(  .*)"
@@ -215,7 +215,7 @@ ForEach ( $Server in $Servers) {
 
                     ForEach ( $Share in $SharesRAW ) {
 
-                            Write-Host $Share
+                            Write-Output $Share
                             # Join UNC Path
                             $UNCPath = ""
                             $UNCPath += "\\"
@@ -235,8 +235,7 @@ ForEach ( $Server in $Servers) {
 
                 # Remove empty Files
                 If ( (Get-Item $exportFile).Length -lt 100) { Remove-Item $exportFile }
-        
-    } 
+
+    }
    }
   }
-
