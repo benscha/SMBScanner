@@ -14,7 +14,6 @@
   .EXAMPLE
    .\ScanSMBSharesParamIP.ps1 
    Script will Start with an interactive Menu
-
   .OUTPUTS
    Search Results $exportFile Path can bedefined in Line 47
    "Path"                       ,"LineNumber","Line"
